@@ -58,15 +58,18 @@ function attacher(processor, options) {
             if (pattern.omit && !replace.length) {
                 message = 'Remove ' + value;
             } else {
-                message = 'Replace ' + value + ' with ' +
-                    quotation(replace, '“', '”').join(', ');
+                message = 'Replace ' + value + ' with ' + quotation(replace, '“', '”');
+
+                if (Array.isArray(message)) {
+                    message = message.join(', ');
+                }
 
                 if (pattern.omit) {
                     message += ', or remove it';
                 }
             }
 
-            message = file.warn(message, {
+            message = file.message(message, {
                 'start': match[0].position.start,
                 'end': match[match.length - 1].position.end
             });
